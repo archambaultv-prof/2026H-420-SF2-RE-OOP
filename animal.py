@@ -35,3 +35,6 @@ def animal_faire_bruit(animal: tuple) -> str:
         "Autruche": "🦤 Hou hou!"
     }
     return bruits.get(animal[ESPECE], "...")
+
+
+
