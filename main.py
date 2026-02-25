@@ -27,12 +27,6 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         print("❌ Nom requis")
         return
     
-    print(f"Espèces: {', '.join(animal.ESPECES)}")
-    espece = input("Espèce: ").strip()
-    if espece not in animal.ESPECES:
-        print("❌ Espèce invalide")
-        return
-    
     try:
         age = int(input("Âge (ans): "))
         if age < 0:
