@@ -1,5 +1,7 @@
 # 🦁 Gestionnaire de Refuge Animalier
 
+## Test pour montrer comment faire une pull request
+
 ## 📋 Tâche
 
 Transformer ce code 100% procédural (tuples + dicts + fonctions) en code
