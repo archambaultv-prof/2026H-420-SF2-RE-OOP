@@ -9,7 +9,7 @@ import refuge
 def afficher_menu() -> None:
     """Affiche le menu principal."""
     print(f"\n{'='*60}")
-    print("🦁 GESTIONNAIRE DE REFUGE ANIMALIER")
+    print("🥷 GESTIONNAIRE DE REFUGE ANIMALIER")
     print(f"{'='*60}")
     print("1. Ajouter un animal")
     print("2. Afficher tous les animaux")
@@ -18,7 +18,7 @@ def afficher_menu() -> None:
     print(f"{'='*60}\n")
 
 
-def ajouter_animal_interactif(mon_refuge: dict) -> None:
+def ajouter_animal_interactif(mon_refuge: refuge.Refuge) -> None:
     """Ajoute un animal au refuge."""
     print("\n➕ Ajouter un animal")
     
@@ -48,11 +48,11 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         print(f"❌ {e}")
 
 
-def retirer_animal_interactif(mon_refuge: dict) -> None:
+def retirer_animal_interactif(mon_refuge: refuge.Refuge) -> None:
     """Retire un animal."""
     nom = input("\nNom à retirer: ").strip()
     if nom:
-        refuge.retirer_animal(mon_refuge, nom)
+        mon_refuge.retirer_animal(nom)
 
 
 def creer_animaux_demo(mon_refuge: dict) -> None:
@@ -69,7 +69,7 @@ def creer_animaux_demo(mon_refuge: dict) -> None:
 
 def main() -> None:
     """Fonction principale."""
-    mon_refuge = refuge.creer_refuge("Refuge du Roi Lion", capacite=20)
+    mon_refuge = refuge.Refuge("Refuge du Roi Lion", capacite=20)
     
     print("\n🌍 Initialisation du refuge...")
     creer_animaux_demo(mon_refuge)
