@@ -2,36 +2,44 @@
 Module animal - Gestion procédurale des animaux du refuge
 Représentation sous forme de tuple: (nom, espèce, âge, santé)
 """
+from abc import ABC, abstractmethod
 
-# Indices du tuple animal
-NOM = 0
-ESPECE = 1
-AGE = 2
-SANTE = 3
+class Animal(ABC):
 
-ESPECES = ["Tigre", "Singe", "Pingouin", "Autruche"]
+    def __init__(self, nom: str, espece: str, age: int, sante: int = 100):
+        self.nom = nom
+        self.espece = espece
+        self.age = age
+        self.sante = sante
 
+    @abstractmethod
+    def faire_bruit(self) -> str:
+        pass
+class Tigre(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Tigre", age, sante)
 
-def creer_animal(nom: str, espece: str, age: int, sante: int = 100) -> tuple:
-    """Crée un animal: (nom, espèce, âge, santé)"""
-    if espece not in ESPECES:
-        raise ValueError(f"Espèce invalide. Choisir parmi: {ESPECES}")
-    if not 0 <= sante <= 100:
-        raise ValueError("Santé doit être entre 0 et 100")
-    return (nom, espece, age, sante)
+    def faire_bruit(self) -> str:
+        return "🐅 RAAAAAHHH!"
 
+class Singe(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Singe", age, sante)
 
-def afficher_animal(animal: tuple) -> str:
-    """Affiche l'animal de manière lisible."""
-    return f"🦁 [{animal[ESPECE]}] {animal[NOM]} ({animal[AGE]}ans, santé: {animal[SANTE]}%)"
+    def faire_bruit(self) -> str:
+        return "🐵 Ouh ouh ouh!"
 
+class Pingouin(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Pingouin", age, sante)
 
-def animal_faire_bruit(animal: tuple) -> str:
-    """Retourne le bruit selon l'espèce (polymorphisme)."""
-    bruits = {
-        "Tigre": "🐅 RAAAAAHHH!",
-        "Singe": "🐵 Ouh ouh ouh!",
-        "Pingouin": "🐧 Coin coin!",
-        "Autruche": "🦤 Hou hou!"
-    }
-    return bruits.get(animal[ESPECE], "...")
+    def faire_bruit(self) -> str:
+        return "🐧 Coin coin!"
+
+class Autruche(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Autruche", age, sante)
+
+    def faire_bruit(self) -> str:
+        return "🦤 Hou hou!"
+

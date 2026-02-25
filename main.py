@@ -42,7 +42,7 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         return
     
     try:
-        nouvel_animal = animal.creer_animal(nom, espece, age)
+        nouvel_animal = animal.Animal(nom, espece, age)
         refuge.ajouter_animal(mon_refuge, nouvel_animal)
     except ValueError as e:
         print(f"❌ {e}")
