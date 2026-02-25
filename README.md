@@ -1,5 +1,7 @@
 # 🦁 Gestionnaire de Refuge Animalier
 
+**Note pour les prochaines fois : Les étudiants n'ont pas finis après 1h30. Peut-être simplifier le fichier main.py**
+
 ## 📋 Tâche
 
 Transformer ce code 100% procédural (tuples + dicts + fonctions) en code
