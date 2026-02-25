@@ -3,35 +3,95 @@ Module animal - Gestion procédurale des animaux du refuge
 Représentation sous forme de tuple: (nom, espèce, âge, santé)
 """
 
-# Indices du tuple animal
-NOM = 0
-ESPECE = 1
-AGE = 2
-SANTE = 3
+from abc import ABC, abstractmethod
 
 ESPECES = ["Tigre", "Singe", "Pingouin", "Autruche"]
 
+class Animal:
+    def __init__(self, nom, espece, age):
+        self.nom = nom
+        self.espece = espece
+        self.age = age
 
-def creer_animal(nom: str, espece: str, age: int, sante: int = 100) -> tuple:
-    """Crée un animal: (nom, espèce, âge, santé)"""
-    if espece not in ESPECES:
-        raise ValueError(f"Espèce invalide. Choisir parmi: {ESPECES}")
-    if not 0 <= sante <= 100:
-        raise ValueError("Santé doit être entre 0 et 100")
-    return (nom, espece, age, sante)
+    @abstractmethod
+    def se_nourrir(self):
+        pass
+
+    def vieillir(self):
+        self.age += 1
+        return f"{self.nom} a maintenant {self.age} ans!"
+
+    @abstractmethod
+    def faire_bruit(self):
+        pass
+    
+    def afficher_animal(self):
+        return f"🦁 Espèce: {self.espece} | Nom: {self.nom} | Âge: {self.age} ans"
 
 
-def afficher_animal(animal: tuple) -> str:
-    """Affiche l'animal de manière lisible."""
-    return f"🦁 [{animal[ESPECE]}] {animal[NOM]} ({animal[AGE]}ans, santé: {animal[SANTE]}%)"
+class Tigre(Animal):
+    def __init__(self, nom, espece, age):
+        super().__init__(self, nom, espece, age)
+    
+    def se_nourrir(self):
+        return f"{self.nom} mange de la viande!"
+
+    def vieillir(self):
+        super().vieillir()
+
+    def faire_bruit(self):
+        return f"{self.nom}: RAAAAAHHH!"
+    
+    def afficher_animal(self):
+        super().afficher_animal()
 
 
-def animal_faire_bruit(animal: tuple) -> str:
-    """Retourne le bruit selon l'espèce (polymorphisme)."""
-    bruits = {
-        "Tigre": "🐅 RAAAAAHHH!",
-        "Singe": "🐵 Ouh ouh ouh!",
-        "Pingouin": "🐧 Coin coin!",
-        "Autruche": "🦤 Hou hou!"
-    }
-    return bruits.get(animal[ESPECE], "...")
+class Singe(Animal):
+    def __init__(self, nom, espece, age):
+        super().__init__(self, nom, espece, age)
+    
+    def se_nourrir(self):
+        return f"{self.nom} mange des bananes!"
+
+    def vieillir(self):
+        super().vieillir()
+
+    def faire_bruit(self):
+        return f"{self.nom}: Ouh ouh ouh!"
+    
+    def afficher_animal(self):
+        super().afficher_animal()
+
+
+class Pingouin(Animal):
+    def __init__(self, nom, espece, age):
+        super().__init__(self, nom, espece, age)
+    
+    def se_nourrir(self):
+        return f"{self.nom} mange du poisson!"
+
+    def vieillir(self):
+        super().vieillir()
+
+    def faire_bruit(self):
+        return f"{self.nom}: Coin coin!"
+
+    def afficher_animal(self):
+        super().afficher_animal()
+
+
+class Autruche(Animal):
+    def __init__(self, nom, espece, age):
+        super().__init__(self, nom, espece, age)
+    
+    def se_nourrir(self):
+        return f"{self.nom} mange de l'herbe!"
+
+    def vieillir(self):
+        super().vieillir()
+
+    def faire_bruit(self):
+        return f"{self.nom}: Hou hou!"
+    
+    def afficher_animal(self):
+        super().afficher_animal()
