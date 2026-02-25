@@ -1,37 +1,34 @@
-"""
-Module animal - Gestion procédurale des animaux du refuge
-Représentation sous forme de tuple: (nom, espèce, âge, santé)
-"""
 
-# Indices du tuple animal
-NOM = 0
-ESPECE = 1
-AGE = 2
-SANTE = 3
 
 ESPECES = ["Tigre", "Singe", "Pingouin", "Autruche"]
 
 
-def creer_animal(nom: str, espece: str, age: int, sante: int = 100) -> tuple:
-    """Crée un animal: (nom, espèce, âge, santé)"""
-    if espece not in ESPECES:
-        raise ValueError(f"Espèce invalide. Choisir parmi: {ESPECES}")
-    if not 0 <= sante <= 100:
-        raise ValueError("Santé doit être entre 0 et 100")
-    return (nom, espece, age, sante)
+class Animal:
+
+    def __init__(self, nom: str, espece: str, age: int, sante: int = 100):
+        if espece not in ESPECES:
+            raise ValueError(f"Espèce invalide. Choisir parmi: {ESPECES}")
+        if not 0 <= sante <= 100:
+            raise ValueError("l'animal doit être vivant")
+
+        self.nom = nom
+        self.espece = espece
+        self.age = age
+        self.sante = sante
+
+    def afficher(self) :
+        return f"🦁 [{self.espece}] {self.nom} ({self.age} ans, santé: {self.sante}%)"
+
+    def faire_bruit(self) :
+        bruits = {"Tigre": "🐅 RAAAAAHHH!", "Singe": "🐵 Ouh ouh ouh!", "Pingouin": "🐧 Coin coin!", "Autruche": "🦤 Hou hou!"}
+        return bruits.get(self.espece, "...")
 
 
-def afficher_animal(animal: tuple) -> str:
-    """Affiche l'animal de manière lisible."""
-    return f"🦁 [{animal[ESPECE]}] {animal[NOM]} ({animal[AGE]}ans, santé: {animal[SANTE]}%)"
 
-
-def animal_faire_bruit(animal: tuple) -> str:
-    """Retourne le bruit selon l'espèce (polymorphisme)."""
-    bruits = {
-        "Tigre": "🐅 RAAAAAHHH!",
-        "Singe": "🐵 Ouh ouh ouh!",
-        "Pingouin": "🐧 Coin coin!",
-        "Autruche": "🦤 Hou hou!"
-    }
-    return bruits.get(animal[ESPECE], "...")
+animal1 = Animal("Rico", "Pingouin", 5)
+print(animal1.afficher())
+print(animal1.faire_bruit())
+animal2 = Animal("Tony", "Tigre", 3)
+print(animal2.afficher())
+print(animal2.faire_bruit())
+      
