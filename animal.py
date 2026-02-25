@@ -3,35 +3,104 @@ Module animal - Gestion procédurale des animaux du refuge
 Représentation sous forme de tuple: (nom, espèce, âge, santé)
 """
 
-# Indices du tuple animal
-NOM = 0
-ESPECE = 1
-AGE = 2
-SANTE = 3
+from abc import ABC, abstractmethod
 
-ESPECES = ["Tigre", "Singe", "Pingouin", "Autruche"]
+class Animal(ABC):
+    def __init__(self, nom: str, espece: str, age: int, sante: int = 100):
+        self.nom = nom
+        self.espece = espece
+        self.age = age
+        self.sante = sante
+        if not 0 <= self.sante <= 100:
+            raise ValueError("Santé doit être entre 0 et 100")
 
-
-def creer_animal(nom: str, espece: str, age: int, sante: int = 100) -> tuple:
-    """Crée un animal: (nom, espèce, âge, santé)"""
-    if espece not in ESPECES:
-        raise ValueError(f"Espèce invalide. Choisir parmi: {ESPECES}")
-    if not 0 <= sante <= 100:
-        raise ValueError("Santé doit être entre 0 et 100")
-    return (nom, espece, age, sante)
+    @abstractmethod
+    def faire_bruit(self) -> str:
+        pass
 
 
-def afficher_animal(animal: tuple) -> str:
-    """Affiche l'animal de manière lisible."""
-    return f"🦁 [{animal[ESPECE]}] {animal[NOM]} ({animal[AGE]}ans, santé: {animal[SANTE]}%)"
+    def afficher(self) -> str:
+        """Affiche l'animal de manière lisible."""
+        return f"[{self.espece}] {self.nom} ({self.age}ans, santé: {self.sante}%)"
 
 
-def animal_faire_bruit(animal: tuple) -> str:
-    """Retourne le bruit selon l'espèce (polymorphisme)."""
-    bruits = {
-        "Tigre": "🐅 RAAAAAHHH!",
-        "Singe": "🐵 Ouh ouh ouh!",
-        "Pingouin": "🐧 Coin coin!",
-        "Autruche": "🦤 Hou hou!"
-    }
-    return bruits.get(animal[ESPECE], "...")
+class Tigre(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Tigre", age, sante)
+
+    def faire_bruit(self) -> str:
+        return "🐅 RAAAAAHHH!"
+
+    def afficher(self) -> str:
+        s = super().afficher()
+        return f"🐅 {s}"
+
+class Singe(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Singe", age, sante)
+
+    def faire_bruit(self) -> str:
+        return "🐵 Ouh ouh ouh!"
+
+    def afficher(self) -> str:
+        s = super().afficher()
+        return f"🐵 {s}"
+
+class Pingouin(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Pingouin", age, sante)
+
+    def faire_bruit(self) -> str:
+        return "🐧 Coin coin!"
+
+    def afficher(self) -> str:
+        s = super().afficher()
+        return f"🐧 {s}"
+
+class Autruche(Animal):
+    def __init__(self, nom: str, age: int, sante: int = 100):
+        super().__init__(nom, "Autruche", age, sante)
+
+    def faire_bruit(self) -> str:
+        return "🦤 Hou hou!"
+
+    def afficher(self) -> str:
+        s = super().afficher()
+        return f"🦤 {s}"
+
+class AnimalFactory:
+    ESPECES = {"Tigre": Tigre, "Singe": Singe, "Pingouin": Pingouin, "Autruche": Autruche}
+
+    @staticmethod
+    def creer_animal(nom: str, espece: str, age: int, sante: int = 100) -> Animal:
+        if espece not in AnimalFactory.ESPECES:
+            raise ValueError(f"Espèce '{espece}' non reconnue")
+        
+        cls = AnimalFactory.ESPECES[espece]
+        return cls(nom, age, sante)
+
+class AnimalFactoryV2:
+    _registry: dict[str, type[Animal]] = {}
+
+    @classmethod
+    def enregistrer(cls, espece: str, animal_cls: type[Animal]) -> None:
+        cls._registry[espece] = animal_cls
+
+    @classmethod
+    def creer_animal(cls, espece: str, *args, **kwargs) -> Animal:
+        if espece not in cls._registry:
+            raise ValueError(f"Espèce '{espece}' non reconnue")
+        
+        animal_cls = cls._registry[espece]
+        return animal_cls(*args, **kwargs)
+
+if __name__ == "__main__":
+    # Test de la factory V2
+    # Enregistrement des classes d'animaux
+    AnimalFactoryV2.enregistrer("Tigre", Tigre)
+    AnimalFactoryV2.enregistrer("Singe", Singe)
+    AnimalFactoryV2.enregistrer("Pingouin", Pingouin)
+    AnimalFactoryV2.enregistrer("Autruche", Autruche)
+
+    a1 = AnimalFactoryV2.creer_animal("Tigre", "Shere Khan", 8, 85)
+    print(a1.afficher())

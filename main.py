@@ -2,8 +2,8 @@
 Module main - Interface du gestionnaire de refuge animalier (procédural)
 """
 
-import animal
-import refuge
+from animal import Autruche, Pingouin, Singe, Tigre, AnimalFactory
+from refuge import Refuge
 
 
 def afficher_menu() -> None:
@@ -18,7 +18,7 @@ def afficher_menu() -> None:
     print(f"{'='*60}\n")
 
 
-def ajouter_animal_interactif(mon_refuge: dict) -> None:
+def ajouter_animal_interactif(mon_refuge: Refuge) -> None:
     """Ajoute un animal au refuge."""
     print("\n➕ Ajouter un animal")
     
@@ -27,11 +27,8 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         print("❌ Nom requis")
         return
     
-    print(f"Espèces: {', '.join(animal.ESPECES)}")
+    print(f"Espèces: {', '.join(AnimalFactory.ESPECES)}")
     espece = input("Espèce: ").strip()
-    if espece not in animal.ESPECES:
-        print("❌ Espèce invalide")
-        return
     
     try:
         age = int(input("Âge (ans): "))
@@ -42,34 +39,34 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         return
     
     try:
-        nouvel_animal = animal.creer_animal(nom, espece, age)
-        refuge.ajouter_animal(mon_refuge, nouvel_animal)
+        nouvel_animal = AnimalFactory.creer_animal(nom, espece, age)
+        mon_refuge.ajouter_animal(nouvel_animal)
     except ValueError as e:
         print(f"❌ {e}")
 
 
-def retirer_animal_interactif(mon_refuge: dict) -> None:
+def retirer_animal_interactif(mon_refuge: Refuge) -> None:
     """Retire un animal."""
     nom = input("\nNom à retirer: ").strip()
     if nom:
-        refuge.retirer_animal(mon_refuge, nom)
+        mon_refuge.retirer_animal(nom)
 
 
-def creer_animaux_demo(mon_refuge: dict) -> None:
+def creer_animaux_demo(mon_refuge: Refuge) -> None:
     """Crée des animaux de démonstration."""
     animaux = [
-        animal.creer_animal("Shere Khan", "Tigre", 8, 85),
-        animal.creer_animal("Rafiki", "Singe", 15, 75),
-        animal.creer_animal("Skipper", "Pingouin", 5, 95),
-        animal.creer_animal("Zazu", "Autruche", 3, 80),
+        Tigre("Shere Khan", 8, 85),
+        Singe("Rafiki", 15, 75),
+        Pingouin("Skipper", 5, 95),
+        Autruche("Zazu", 3, 80),
     ]
     for a in animaux:
-        refuge.ajouter_animal(mon_refuge, a)
+        mon_refuge.ajouter_animal(a)
 
 
 def main() -> None:
     """Fonction principale."""
-    mon_refuge = refuge.creer_refuge("Refuge du Roi Lion", capacite=20)
+    mon_refuge = Refuge("Refuge du Roi Lion", capacite=20)
     
     print("\n🌍 Initialisation du refuge...")
     creer_animaux_demo(mon_refuge)
@@ -81,7 +78,7 @@ def main() -> None:
         if choix == "1":
             ajouter_animal_interactif(mon_refuge)
         elif choix == "2":
-            refuge.afficher_tous_animaux(mon_refuge)
+            mon_refuge.afficher_tous_animaux()
         elif choix == "3":
             retirer_animal_interactif(mon_refuge)
         elif choix == "0":
