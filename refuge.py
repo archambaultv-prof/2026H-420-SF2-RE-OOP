@@ -50,3 +50,35 @@ def afficher_tous_animaux(refuge: dict) -> None:
         print(f"{i}. {animal.afficher_animal(a)}")
     
     print(f"{'='*70}\n")
+
+class Refuge:
+    def __init__(self, nom, capacite, animaux=[]):
+        self.nom = nom
+        self.animaux = animaux
+        self.capacite = capacite
+    
+    def ajouter_animal(self, animal: animal.Animal) -> bool:
+        if len(self.animaux) >= self.capacite:
+            print(f"❌ Refuge plein! ({self.capacite}/{self.capacite})")
+            return False
+        
+        self.animaux.append(animal.nom)
+        nom = animal.nom
+        espece = animal.espece
+        print(f"✅ {nom} ({espece}) ajouté au refuge")
+        return True
+
+    def retirer_animal(self, animal: str) -> bool:
+        """Retire un animal du refuge par son nom."""
+        for i in self.animaux:
+            if i == animal:
+                self.animaux.pop(i)
+                print(f"✅ {animal} retiré du refuge")
+                return True
+        
+        print(f"❌ Animal '{animal}' non trouvé")
+        return False
+
+    def afficher_tous_animaux(self):
+        for i in self.animaux:
+            print(animal.afficher_animal(self.i))
