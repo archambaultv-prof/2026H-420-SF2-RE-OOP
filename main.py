@@ -2,9 +2,10 @@
 Module main - Interface du gestionnaire de refuge animalier (procédural)
 """
 
-import animal
-import refuge
+from animal import Animal, Tigre, Singe, Pingouin, Autruche
+from refuge import Refuge
 
+mon_refuge = Refuge("Refuge du Roi Lion", [], 6)
 
 def afficher_menu() -> None:
     """Affiche le menu principal."""
@@ -18,7 +19,7 @@ def afficher_menu() -> None:
     print(f"{'='*60}\n")
 
 
-def ajouter_animal_interactif(mon_refuge: dict) -> None:
+def ajouter_animal_interactif() -> None:
     """Ajoute un animal au refuge."""
     print("\n➕ Ajouter un animal")
     
@@ -27,9 +28,9 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         print("❌ Nom requis")
         return
     
-    print(f"Espèces: {', '.join(animal.ESPECES)}")
+    print(f"Espèces: Tigre, Singe, Pingouin, Autruche")
     espece = input("Espèce: ").strip()
-    if espece not in animal.ESPECES:
+    if espece not in ["Tigre", "Singe", "Pingouin", "Autruche"]:
         print("❌ Espèce invalide")
         return
     
@@ -41,9 +42,17 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         print("❌ Âge invalide")
         return
     
+    if espece == "Tigre":
+        nouvel_animal = Tigre(nom, age, 100)
+    elif espece == "Singe":
+        nouvel_animal = Singe(nom, age, 100)
+    elif espece == "Pingouin":
+        nouvel_animal = Pingouin(nom, age, 100)
+    elif espece == "Autruche":
+        nouvel_animal = Autruche(nom, age, 100)
+
     try:
-        nouvel_animal = animal.creer_animal(nom, espece, age)
-        refuge.ajouter_animal(mon_refuge, nouvel_animal)
+        mon_refuge.ajouter_animal(nouvel_animal)
     except ValueError as e:
         print(f"❌ {e}")
 
@@ -58,18 +67,16 @@ def retirer_animal_interactif(mon_refuge: dict) -> None:
 def creer_animaux_demo(mon_refuge: dict) -> None:
     """Crée des animaux de démonstration."""
     animaux = [
-        animal.creer_animal("Shere Khan", "Tigre", 8, 85),
-        animal.creer_animal("Rafiki", "Singe", 15, 75),
-        animal.creer_animal("Skipper", "Pingouin", 5, 95),
-        animal.creer_animal("Zazu", "Autruche", 3, 80),
+        Tigre("Shere Khan", "Tigre", 8, 85),
+        Singe("Rafiki", 15, 75),
+        Pingouin("Skipper", 5, 95),
+        Autruche("Zazu", 3, 80),
     ]
     for a in animaux:
-        refuge.ajouter_animal(mon_refuge, a)
+        mon_refuge.ajouter_animal(a)
 
 
 def main() -> None:
-    """Fonction principale."""
-    mon_refuge = refuge.creer_refuge("Refuge du Roi Lion", capacite=20)
     
     print("\n🌍 Initialisation du refuge...")
     creer_animaux_demo(mon_refuge)
