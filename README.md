@@ -1,13 +1,15 @@
 # 🦁 Gestionnaire de Refuge Animalier
 
+**Note pour les prochaines fois : Les étudiants n'ont pas finis après 1h30. Peut-être simplifier le fichier main.py**
+
 ## 📋 Tâche
 
 Transformer ce code 100% procédural (tuples + dicts + fonctions) en code
 **orienté objet** (classes + héritage + polymorphisme).
 
 ### Étape 1 : Créer une classe `Animal`
-- Transformer les tuples en classe `Animal` avec attributs : `nom`, `espece`, `age`, `sante`
-- Implémenter les méthodes : `se_nourrir()`, `vieillir()`, `faire_bruit()`
+- Transformer les tuples et fonctions (`creer_animal()`, `afficher_animal()`, `animal_faire_bruit()`) en classe `Animal`
+- Implémenter les méthodes : `faire_bruit()` et `afficher()`
 - Utiliser `ABC` (Abstract Base Class) pour garantir une interface non instanciable
 - La méthode `faire_bruit()` doit être généralisée pour chaque espèce et donc
   être une méthode abstraite
