@@ -64,7 +64,7 @@ def creer_animaux_demo() -> None:
     Pinguin("Skipper", "Pingouin", 5, 95),
     Autruche("Zazu", "Autruche", 3, 80),
     ]
-    
+
     for a in animaux:
         Refuge.ajouter_animal(a)
 
@@ -92,9 +92,6 @@ def main() -> None:
         else:
             print("❌ Choix invalide\n")
 
-
-if __name__ == "__main__":
-    main()
 
 
 
