@@ -16,7 +16,7 @@ def ajouter_animal(refuge: dict, animal_tuple: tuple) -> bool:
     if len(refuge["animaux"]) >= refuge["capacite"]:
         print(f"❌ Refuge plein! ({refuge['capacite']}/{refuge['capacite']})")
         return False
-    
+
     refuge["animaux"].append(animal_tuple)
     nom = animal_tuple[animal.NOM]
     espece = animal_tuple[animal.ESPECE]
@@ -31,7 +31,7 @@ def retirer_animal(refuge: dict, nom: str) -> bool:
             refuge["animaux"].pop(i)
             print(f"✅ {nom} retiré du refuge")
             return True
-    
+
     print(f"❌ Animal '{nom}' non trouvé")
     return False
 
@@ -41,12 +41,42 @@ def afficher_tous_animaux(refuge: dict) -> None:
     if not refuge["animaux"]:
         print(f"\n📍 {refuge['nom']} est vide\n")
         return
-    
-    print(f"\n{'='*70}")
+
+    print(f"\n{'=' * 70}")
     print(f"📍 {refuge['nom']} - {len(refuge['animaux'])}/{refuge['capacite']} animaux")
-    print(f"{'='*70}")
-    
+    print(f"{'=' * 70}")
+
     for i, a in enumerate(refuge["animaux"], 1):
         print(f"{i}. {animal.afficher_animal(a)}")
-    
-    print(f"{'='*70}\n")
+
+    print(f"{'=' * 70}\n")
+
+
+class refuge:
+    def __inti__(self, nom, capacite):
+        self.nom = nom
+        self.capacite = capacite
+        self.animal = []
+
+    def ajouter_animal(self, nom):
+        self.animal.append(nom)
+
+    def retirer_animal(self, nom):
+        self.animal.remove(nom)
+
+    def __str__(self):
+        """Affiche tous les animaux du refuge."""
+        if not refuge["animaux"]:
+            print(f"\n📍 {refuge['nom']} est vide\n")
+            return
+
+        print(f"\n{'=' * 70}")
+        print(
+            f"📍 {refuge['nom']} - {len(refuge['animaux'])}/{refuge['capacite']} animaux"
+        )
+        print(f"{'=' * 70}")
+
+        for i, a in enumerate(refuge["animaux"], 1):
+            print(f"{i}. {animal.afficher_animal(a)}")
+
+        print(f"{'=' * 70}\n")
