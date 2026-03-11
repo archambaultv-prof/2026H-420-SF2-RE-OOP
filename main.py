@@ -18,7 +18,7 @@ def afficher_menu() -> None:
     print(f"{'='*60}\n")
 
 
-def ajouter_animal_interactif(mon_refuge: dict) -> None:
+def ajouter_animal_interactif(mon_refuge) -> None:
     """Ajoute un animal au refuge."""
     print("\n➕ Ajouter un animal")
     
@@ -26,7 +26,7 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
     if not nom:
         print("❌ Nom requis")
         return
-    
+
     print(f"Espèces: {', '.join(animal.ESPECES)}")
     espece = input("Espèce: ").strip()
     if espece not in animal.ESPECES:
@@ -41,12 +41,7 @@ def ajouter_animal_interactif(mon_refuge: dict) -> None:
         print("❌ Âge invalide")
         return
     
-    try:
-        nouvel_animal = animal.creer_animal(nom, espece, age)
-        refuge.ajouter_animal(mon_refuge, nouvel_animal)
-    except ValueError as e:
-        print(f"❌ {e}")
-
+    refuge.ajouter_animal(mon_refuge, nom, espece, age, sante=100)
 
 def retirer_animal_interactif(mon_refuge: dict) -> None:
     """Retire un animal."""
@@ -54,26 +49,20 @@ def retirer_animal_interactif(mon_refuge: dict) -> None:
     if nom:
         refuge.retirer_animal(mon_refuge, nom)
 
-
-def creer_animaux_demo(mon_refuge: dict) -> None:
-    """Crée des animaux de démonstration."""
-    animaux = [
-        animal.creer_animal("Shere Khan", "Tigre", 8, 85),
-        animal.creer_animal("Rafiki", "Singe", 15, 75),
-        animal.creer_animal("Skipper", "Pingouin", 5, 95),
-        animal.creer_animal("Zazu", "Autruche", 3, 80),
-    ]
-    for a in animaux:
-        refuge.ajouter_animal(mon_refuge, a)
-
-
 def main() -> None:
     """Fonction principale."""
-    mon_refuge = refuge.creer_refuge("Refuge du Roi Lion", capacite=20)
+    animaux = [
+        ("Shere Khan", "Tigre", 8, 85),
+        ("Rafiki", "Singe", 15, 75),
+        ("Skipper", "Pingouin", 5, 95),
+        ("Zazu", "Autruche", 3, 80),
+    ]
+
+    mon_refuge = refuge.Refuge("Refuge de la Jungle", animaux, 10)
     
     print("\n🌍 Initialisation du refuge...")
-    creer_animaux_demo(mon_refuge)
-    
+    refuge.afficher_tous_animaux(mon_refuge)
+
     while True:
         afficher_menu()
         choix = input("Choix: ").strip()
